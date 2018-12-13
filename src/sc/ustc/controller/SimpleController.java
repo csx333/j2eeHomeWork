@@ -1,5 +1,7 @@
 package sc.ustc.controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import sc.ustc.tools.AnalyseXml;
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class SimpleController extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
+    private static Logger logger = LogManager.getLogger(SimpleController.class.getName());
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -24,18 +29,20 @@ public class SimpleController extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         response.setHeader("Content-Type", "text/html; charset=UTF-8");
+
         String actionName = request.getServletPath();
-        System.out.println("actionName.getServletPath()>>>>>>>>>" + actionName);
+        logger.info("actionName.getServletPath()>>>>>>>>>" + actionName);
         String[] actionUrl = actionName.split("/");
         actionName = actionUrl[actionUrl.length - 1];
-        System.out.println("actionName>>>>>>>>>>>" + actionName);
-        String path = request.getSession().getServletContext().getRealPath("controller.xml");
-        System.out.println("controller.xml.path>>>>>>" + path);
+        logger.info("actionName>>>>>>>>>>>" + actionName);
+        String path = request.getSession().getServletContext().getRealPath("WEB-INF/classes/controller.xml");
+        logger.info("controller.xml.path>>>>>>" + path);
         try {
             File fd = new File(path);
             Map<String, String> actionMap = AnalyseXml.getActionAttribute(actionName.substring(0, actionName.indexOf(".")), fd);
 
             if (!actionMap.isEmpty()&& actionMap!= null ) {
+
                 String className = actionMap.get("class");
                 String methodName = actionMap.get("method");
 
@@ -47,7 +54,7 @@ public class SimpleController extends HttpServlet {
                 if (!resultMap.isEmpty()&& resultMap!= null ) {
                     String resultType = resultMap.get("type");
                     String resultValue = resultMap.get("value");
-                    System.out.println(resultType+">>>>>>" + resultValue);
+                    logger.info(resultType+">>>>>>" + resultValue);
                     if (resultType.equals("forward")) {
                         request.getRequestDispatcher(resultValue).forward(request, response);
                     } else if (resultType.equals("redirect")) {
