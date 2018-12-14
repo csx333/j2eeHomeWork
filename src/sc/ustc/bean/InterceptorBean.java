@@ -1,5 +1,10 @@
 package sc.ustc.bean;
-
+/**
+ * InterceptorBean class
+ * @description : 存储拦截器的相关信息
+ * @author : csx
+ * @date : 2018/12/14
+ */
 public class InterceptorBean {
     private String interceptorName;
     private String interceptorClass;

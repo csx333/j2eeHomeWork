@@ -1,12 +1,21 @@
 package sc.ustc.bean;
 
-import java.util.ArrayList;
-
+import java.util.List;
+/**
+ * ActionBean class
+ * @description : 存储Action相关信息
+ * @author : csx
+ * @date : 2018/12/14
+ */
 public class ActionBean {
     private String actionName;
     private String actionClass;
     private String actionMethod;
-    private ArrayList<InterceptorBean> interceptorBeans;
+    /**
+     * interceptorBeans
+     * 相应Action的的拦截器
+     */
+    private List<InterceptorBean> interceptorBeans;
 
     public String getActionName() {
         return actionName;
@@ -32,11 +41,11 @@ public class ActionBean {
         this.actionMethod = actionMethod;
     }
 
-    public ArrayList<InterceptorBean> getInterceptorBeans() {
+    public List<InterceptorBean> getInterceptorBeans() {
         return interceptorBeans;
     }
 
-    public void setInterceptorBeans(ArrayList<InterceptorBean> interceptorBeans) {
+    public void setInterceptorBeans(List<InterceptorBean> interceptorBeans) {
         this.interceptorBeans = interceptorBeans;
     }
 }

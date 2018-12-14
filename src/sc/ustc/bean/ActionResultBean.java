@@ -1,10 +1,14 @@
 package sc.ustc.bean;
-
+/**
+ * ActionResultBean class
+ * @description : 存储Action返回的result相关信息
+ * @author : csx
+ * @date : 2018/12/14
+ */
 public class ActionResultBean {
     private String actionResultName;
     private String actionResultType;
     private String actionResultValue;
-    private ActionBean actionResult;
 
     public String getActionResultName() {
         return actionResultName;
@@ -28,13 +32,5 @@ public class ActionResultBean {
 
     public void setActionResultValue(String actionResultValue) {
         this.actionResultValue = actionResultValue;
-    }
-
-    public ActionBean getActionResult() {
-        return actionResult;
-    }
-
-    public void setActionResult(ActionBean actionResult) {
-        this.actionResult = actionResult;
     }
 }
