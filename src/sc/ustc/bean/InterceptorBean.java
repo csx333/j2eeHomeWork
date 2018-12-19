@@ -10,7 +10,6 @@ public class InterceptorBean {
     private String interceptorClass;
     private String interceptorPredo;
     private String interceptorAfterdo;
-
     public String getInterceptorName() {
         return interceptorName;
     }

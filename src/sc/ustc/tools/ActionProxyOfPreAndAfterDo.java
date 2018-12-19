@@ -42,8 +42,10 @@ public class ActionProxyOfPreAndAfterDo implements MethodInterceptor {
             preMethod.invoke(clazz.getDeclaredConstructor().newInstance(),(HttpServletRequest) args[0], (HttpServletResponse) args[1], actionBean);
         }
         logger.info("准备执行本体方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" );
+
         //调用业务类（父类中）的方法
         String result = (String)proxy.invokeSuper(obj, args);
+
         logger.info("准备执行afterdo>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" );
         for(int i = 0;i<interceptorsList.size();i++){
             String interceptorClassName = interceptorsList.get(i).getInterceptorClass();

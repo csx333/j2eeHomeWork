@@ -6,6 +6,8 @@ import sc.ustc.bean.ActionBean;
 import sc.ustc.bean.ActionResultBean;
 import sc.ustc.tools.ActionProxyOfPreAndAfterDo;
 import sc.ustc.tools.AnalyseXml;
+import sc.ustc.tools.BasicXslt;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -32,6 +34,7 @@ public class SimpleController extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setHeader("Content-Type", "text/html; charset=UTF-8");
         String actionName = request.getServletPath();
+        logger.info("正在访问的action路径>>>>>>>>>" + request.getRequestURL());
         logger.info("正在访问的action路径>>>>>>>>>" + actionName);
         String[] actionUrl = actionName.split("/");
         actionName = actionUrl[actionUrl.length - 1];
@@ -63,17 +66,26 @@ public class SimpleController extends HttpServlet {
                     String resultType = actionResultBean.getActionResultType();
                     String resultValue = actionResultBean.getActionResultValue();
                     logger.info(resultValue+">>>>>>>>>>>>>>>>>>" + resultValue);
-                    if (resultType.equals("forward")) {
+                    String[] resultValueName = resultValue.split("_");
+                    String resultValueSuffix =  resultValueName[resultValueName.length - 1];
+                    logger.info("resultValueSuffix（带后缀）>>>>>>>>>>>" + resultValueSuffix);
+                    if(resultValueSuffix == "view.xml"){
+                        BasicXslt.transformXmlByXslt(request,response);
+                    }
+                    else if (resultType.equals("forward")) {
                         logger.info("正在送往>>>>>>>>>>>>>>>>>>" + resultValue);
                         request.getRequestDispatcher(resultValue).forward(request, response);
+                        logger.info("正在访问的action路径>>>>>>>>>" + request.getRequestURL());
                     } else if (resultType.equals("redirect")) {
                         logger.info("正在送往>>>>>>>>>>>>>>>>>>" + resultValue);
                         response.sendRedirect(resultValue);
+                        logger.info("正在访问的action路径>>>>>>>>>" + request.getRequestURL());
                     }
                 }
             } else {
                 logger.info("正在送往>>>>>>>>>>>>>>>>>>login.jsp" );
                 response.sendRedirect("login.jsp");
+                logger.info("正在访问的action路径>>>>>>>>>" + request.getRequestURL());
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
