@@ -29,6 +29,7 @@ public class ActionProxyOfPreAndAfterDo implements MethodInterceptor {
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+        //根据被代理业务类调用的方法获取actionbean，从中获取拦截器列表
         ActionBean actionBean = (ActionBean)args[2];
         List<InterceptorBean> interceptorsList = actionBean.getInterceptorBeans();
         logger.info("准备执行predo>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" );
@@ -39,10 +40,11 @@ public class ActionProxyOfPreAndAfterDo implements MethodInterceptor {
             Class<?> clazz = Class.forName(interceptorClassName);
             Method preMethod = clazz.getDeclaredMethod(interceptorPreDo, HttpServletRequest.class,
                     HttpServletResponse.class, ActionBean.class);
-            preMethod.invoke(clazz.getDeclaredConstructor().newInstance(),(HttpServletRequest) args[0], (HttpServletResponse) args[1], actionBean);
+            preMethod.invoke(clazz.getDeclaredConstructor().newInstance(),(HttpServletRequest) args[0],
+                    (HttpServletResponse) args[1], actionBean);
         }
-        logger.info("准备执行本体方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" );
 
+        logger.info("准备执行本体方法>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" );
         //调用业务类（父类中）的方法
         String result = (String)proxy.invokeSuper(obj, args);
 
@@ -54,7 +56,8 @@ public class ActionProxyOfPreAndAfterDo implements MethodInterceptor {
             Class<?> clazz = Class.forName(interceptorClassName);
             Method afterMethod = clazz.getDeclaredMethod(interceptorAfterDo, HttpServletRequest.class,
                     HttpServletResponse.class, String.class);
-            afterMethod.invoke(clazz.getDeclaredConstructor().newInstance(),(HttpServletRequest) args[0], (HttpServletResponse) args[1],result);
+            afterMethod.invoke(clazz.getDeclaredConstructor().newInstance(),(HttpServletRequest) args[0],
+                    (HttpServletResponse) args[1],result);
         }
         return result;
     }

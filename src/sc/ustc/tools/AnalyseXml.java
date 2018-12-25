@@ -47,10 +47,10 @@ public class AnalyseXml {
         return null;
     }
     /**
-     * @Description :
-     * @param ： actionName 需要取得的Action的name
+     * @Description : 取得action在controller.xml文件中各个节点的信息
+     * @param ： actionName 需要取得的Action的名字
      * @param ： file controller.xml文件
-     * @Return : sc.ustc.bean.ActionBean
+     * @Return : sc.ustc.bean.ActionBean 将action节点及子节点信息存入actionBeam
      * @Author : csx
      * @Date : 2018/12/14 17:52
      */
@@ -83,7 +83,7 @@ public class AnalyseXml {
         }
     }
     /**
-     * @Description :
+     * @Description : 取得action在controller.xml文件中action节点的信息
      * @param ： actionName
      * @param ： file
      * @Return : sc.ustc.bean.ActionBean

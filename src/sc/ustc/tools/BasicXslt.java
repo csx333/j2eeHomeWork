@@ -14,7 +14,7 @@ import java.io.IOException;
 
 /**
  * @author : csx
- * @description :
+ * @description : 利用xslt中定义的规则将xml转化为相应的html
  * @date : 2018/12/16 20:40
  */
 public class BasicXslt {
@@ -24,9 +24,11 @@ public class BasicXslt {
         TransformerFactory tf = TransformerFactory.newInstance();
         try {
             // 获取转换器对象实例
-            Transformer transformer = tf.newTransformer(new StreamSource(request.getSession().getServletContext().getRealPath("pages/logout.xsl")));
+            Transformer transformer = tf.newTransformer(
+                    new StreamSource(request.getSession().getServletContext().getRealPath("pages/logout.xsl")));
             // 进行转换
-            transformer.transform(new StreamSource(request.getSession().getServletContext().getRealPath("pages/success_view.xml")),
+            transformer.transform(
+                    new StreamSource(request.getSession().getServletContext().getRealPath("pages/success_view.xml")),
                     new StreamResult(response.getOutputStream()));
         } catch (TransformerConfigurationException e) {
             e.printStackTrace();

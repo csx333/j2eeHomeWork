@@ -37,10 +37,17 @@ public abstract class BaseDAO {
         Connection conn = null;
         Class.forName(driver);
         logger.info("驱动加载成功");
-        conn = DriverManager.getConnection(url, userName, userPassword);
+        if(userName == null ||userPassword == null){
+            conn = DriverManager.getConnection(url);
+        }
+        else{
+            conn = DriverManager.getConnection(url,userName, userPassword);
+        }
+
         logger.info("连接成功");
         return conn;
     }
+
     public boolean closeDBConnection(ResultSet rs, PreparedStatement ps,Connection conn) {
         try {
             if (rs != null) {
@@ -62,6 +69,7 @@ public abstract class BaseDAO {
             return false;
         }
     }
+
     public abstract Object query(String sql);
     public abstract boolean insert(String sql);
     public abstract boolean update(String sql);
